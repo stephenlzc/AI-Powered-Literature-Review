@@ -1,0 +1,1046 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: EXA
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.2
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: 2da1868f-5ee2-44e5-b3e2-44fa941403e9
+    name: exa_api_ket
+    value: ''
+    value_type: secret
+  features:
+    file_upload:
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: 1727630066532-source-1727772385878-target
+      selected: false
+      source: '1727630066532'
+      sourceHandle: source
+      target: '1727772385878'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: http-request
+      id: 1727772385878-source-1727630075809-target
+      selected: false
+      source: '1727772385878'
+      sourceHandle: source
+      target: '1727630075809'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: llm
+      id: 1727630075809-source-1728366213317-target
+      source: '1727630075809'
+      sourceHandle: source
+      target: '1728366213317'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: llm
+      id: 1728366213317-source-1728366855586-target
+      source: '1728366213317'
+      sourceHandle: source
+      target: '1728366855586'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: llm
+      id: 1728366855586-source-1728367009812-target
+      source: '1728366855586'
+      sourceHandle: source
+      target: '1728367009812'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: llm
+      id: 1728367009812-source-1728367092750-target
+      source: '1728367009812'
+      sourceHandle: source
+      target: '1728367092750'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: 1728367092750-source-1728367274795-target
+      source: '1728367092750'
+      sourceHandle: source
+      target: '1728367274795'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: llm
+      id: 1727630075809-source-1728367576764-target
+      source: '1727630075809'
+      sourceHandle: source
+      target: '1728367576764'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: llm
+      id: 1728367576764-source-1728366855586-target
+      source: '1728367576764'
+      sourceHandle: source
+      target: '1728366855586'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 搜索关键词
+          max_length: 128
+          options: []
+          required: true
+          type: text-input
+          variable: query_key
+        - label: year
+          max_length: 4
+          options: []
+          required: true
+          type: number
+          variable: year
+        - label: Language
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: Language
+        - label: No. of papers
+          max_length: 48
+          options: []
+          required: true
+          type: number
+          variable: num_paper
+      height: 168
+      id: '1727630066532'
+      position:
+        x: 30
+        y: 297
+      positionAbsolute:
+        x: 30
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config:
+            api_key: '{{#env.exa_api_ket#}}'
+            header: x-api-key
+            type: custom
+          type: api-key
+        body:
+          data: "{\n    \"query\": \"{{#1727772385878.text#}}\",\n    \"type\": \"\
+            neural\",\n    \"useAutoprompt\": true,\n    \"numResults\": {{#1727630066532.num_paper#}},\n\
+            \    \"category\": \"research paper\",\n    \"excludeDomains\": [\"en.wikipedia.org\"\
+            ],\n    \"startPublishedDate\": \"{{#1727630066532.year#}}-01-01\",\n\
+            \    \"contents\": {\n      \"text\": true,\n      \"highlights\": {\n\
+            \        \"numSentences\": 3,\n        \"highlightsPerUrl\": 3\n     \
+            \ },\n      \"summary\": {\n        \"query\": \"What does this paper\
+            \ cover?\"\n      }\n    }\n  }"
+          type: json
+        desc: ''
+        headers: 'accept:application/json
+
+          content-type:application/json'
+        method: post
+        params: ''
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: EXA search
+        type: http-request
+        url: https://api.exa.ai/search
+        variables: []
+      height: 90
+      id: '1727630075809'
+      position:
+        x: 638
+        y: 297
+      positionAbsolute:
+        x: 638
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.5
+          mode: chat
+          name: gpt-4o-mini
+          provider: openai
+        prompt_template:
+        - id: 7747bb99-b76d-4149-9f10-6509a1367b93
+          role: system
+          text: 'You are tasked with generating relevant keywords or phrases for a
+            given research direction. Follow these instructions carefully:
+
+
+            The research direction is provided below:
+
+            <research_direction>
+
+            {{#1727630066532.query_key#}}
+
+            </research_direction>
+
+
+            To complete this task:
+
+            1. Carefully analyze the provided research direction.
+
+            2. Identify core concepts, methods, techniques, or topics in this research
+            area.
+
+            3. Generate 5 to 8 of the most relevant and representative keywords or
+            phrases.
+
+            4. Ensure keywords are concise, typically 1-3 words each.
+
+            5. Make sure the keywords cover different aspects of the research direction.
+
+            6. Order the keywords by importance or relevance.
+
+            7. Separate keywords with English commas (,),Don''t use Chinese commas(，).
+
+            8. Do not include any explanations, descriptions, or additional text.
+
+            9. Use English for all keywords in your output.
+
+
+            Present your result in the following format, without any XML tags:
+
+
+            keyword1，keyword2，keyword3，...
+
+
+            Remember, your response should contain only the list of keywords, with
+            nothing else.
+
+
+            Here''s an example of a correct output for the research direction "人工智能在医疗诊断中的应用":
+
+
+            artificial intelligence,medical diagnosis,machine learning,healthcare,predictive
+            analytics
+
+
+            Final reminder: Provide only the list of keywords in English, separated
+            by Chinese commas, without any additional text or explanation.'
+        selected: false
+        title: Keywords
+        type: llm
+        variables: []
+        vision:
+          configs:
+            detail: high
+          enabled: false
+      height: 98
+      id: '1727772385878'
+      position:
+        x: 334
+        y: 297
+      positionAbsolute:
+        x: 334
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-3-5-sonnet-20240620
+          provider: openai_api_compatible
+        prompt_template:
+        - id: da832e2f-c705-4961-8160-a4d70edccb10
+          role: system
+          text: "You are a renowned professor specializing in research methodology\
+            \ and academic writing. Your task is to create a comprehensive, well-structured,\
+            \ and logically sound literature review outline based on collected literature.\
+            \ This outline should cover all important aspects of the research topic,\
+            \ including historical background, current research status, main theoretical\
+            \ frameworks, key controversies, and future research directions.\n\nHere\
+            \ is the research topic:\n<research_topic>\n{{#1727772385878.text#}}\n\
+            </research_topic>\n\nHere is the collected literature:\n<collected_literature>\n\
+            {{#1727630075809.body#}}\n</collected_literature>\n\nYou are to create\
+            \ the outline in the following language:\n<language>\n{{#1727630066532.Language#}}\n\
+            </language>\n\nPlease follow these instructions to create the literature\
+            \ review outline:\n\n1. Structure the outline as follows:\n   a) Introduction\n\
+            \   b) Methodology\n   c) Main body\n   d) Discussion\n   e) Conclusion\n\
+            \   f) References\n\n2. For each main section, provide 3-5 key points\
+            \ or subsections.\n\n3. Ensure logical coherence between all sections\
+            \ and subsections.\n\n4. Balance the content, giving appropriate weight\
+            \ to each aspect of the topic.\n\n5. Use standard outline format with\
+            \ titles, subtitles, and bullet points.\n\n6. Include innovative perspectives\
+            \ or organizational approaches where appropriate.\n\n7. For the references\
+            \ section, simply indicate that literature will be cited in APA format.\n\
+            \n8. Focus solely on creating the outline. Do not write any content for\
+            \ the sections themselves.\n\n9. Do not include any explanatory text or\
+            \ meta-commentary about the outline creation process.\n\n10. Present only\
+            \ the outline itself, without any introductory or concluding remarks.\n\
+            \nBegin the outline immediately, using the specified language, and following\
+            \ the structure and guidelines provided above."
+        selected: false
+        title: Outline
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1728366213317'
+      position:
+        x: 942
+        y: 297
+      positionAbsolute:
+        x: 942
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-3-5-sonnet-20240620
+          provider: openai_api_compatible
+        prompt_template:
+        - id: 565c7f22-9357-4b16-a34e-fef06db0a631
+          role: system
+          text: "You are a literature writing expert tasked with creating a high-quality,\
+            \ comprehensive, and insightful academic literature review based on the\
+            \ provided outline. Follow these instructions carefully:\n\n1. Carefully\
+            \ read and analyze the user's outline:\n\n2. Understand the outline:\n\
+            \   - Identify the main topics and subtopics\n   - Recognize the logical\
+            \ flow and structure of the review\n\n3. Expand the content:\n   For each\
+            \ section in the outline, provide detailed content that includes:\n  \
+            \ - A summary of existing research\n   - Critical analysis of current\
+            \ studies\n   - Identification of research gaps\n   - Suggestions for\
+            \ new research directions\n\n4. Conduct in-depth analysis:\n   - Compare\
+            \ and contrast different studies\n   - Evaluate the strengths and weaknesses\
+            \ of each research\n   - Analyze limitations in research methods, sample\
+            \ selection, and result interpretation\n\n5. Apply critical thinking:\n\
+            \   - Identify unexplored aspects in the research field\n   - Point out\
+            \ controversial or contradictory issues\n   - Assess the applicability\
+            \ and limitations of existing theoretical frameworks\n\n6. Construct a\
+            \ theoretical framework:\n   - Propose a framework that explains the current\
+            \ state and development direction of the research field\n   - Explain\
+            \ how this framework integrates and transcends existing research\n\n7.\
+            \ Suggest future research directions:\n   - Propose 3-5 valuable future\
+            \ research directions\n   - Explain the importance and potential contributions\
+            \ of these research directions\n\n8. Use appropriate academic language\
+            \ and terminology to engage professional readers while ensuring comprehensibility\
+            \ for researchers in related fields.\n\n9. Incorporate unique insights\
+            \ and forward-looking perspectives to stimulate readers' thinking and\
+            \ research inspiration.\n\n10. IMPORTANT:Use the citation format ([1](http://xxx.xxx.xxx/xxx/xxx?=xx))\
+            \ for referencing relevant literature to support each argument.\n\n11.\
+            \ Ensure your review is comprehensive, logically structured, and critically\
+            \ analytical, with the potential to become an important reference in the\
+            \ field.\n\n12. Write your literature review without using any XML tags\
+            \ in the output. The final product should be a cohesive, well-structured\
+            \ academic text ready for publication.\n\nBegin your literature review\
+            \ now, expanding on the provided outline to create a thorough and insightful\
+            \ academic review."
+        - id: dc52cddc-cb2f-4818-92c2-b100887a3bb9
+          role: user
+          text: "You are tasked with expanding an outline while incorporating relevant\
+            \ references from a given text. Follow these instructions carefully:\n\
+            \n1. Here is the outline you need to expand:\n<outline>\n{{#1728366213317.text#}}\n\
+            </outline>\n\n2. Here is the reference text you should use to support\
+            \ and expand the outline:\n<reference_text_1>\n{{#1727630075809.body#}}\n\
+            </reference_text_1>\n\n<reference_text_2>\n{{#1728367576764.text#}}\n\
+            </reference_text_2>\n\n3. Your task is to expand each point in the outline\
+            \ into a more detailed paragraph or section. As you do this, you should\
+            \ incorporate relevant information from the reference text to support,\
+            \ elaborate on, or provide examples for the points in the outline.\n\n\
+            4. When you use information from the reference text, you must cite it\
+            \ properly. Use in-text citations in the format (Author, Year) if author\
+            \ and year information is available. If not, use a short form of the title\
+            \ in parentheses. For direct quotes, include the page number if available,\
+            \ like this: (Author, Year, p. X).\n\n5. Maintain coherence and flow in\
+            \ your expanded outline. Ensure that the ideas progress logically and\
+            \ that there are smooth transitions between sections.\n\n6. Format your\
+            \ expanded outline as follows:\n   - Use headings for main points (use\
+            \ ### for Markdown h3 headings)\n   - Use subheadings for subpoints (use\
+            \ #### for Markdown h4 headings)\n   - Use bullet points for lists or\
+            \ examples\n   - Indent subpoints appropriately\n\n7. Begin your expanded\
+            \ outline with an introduction that overviews the main points, and end\
+            \ with a conclusion that summarizes the key ideas.\n\n8. Enclose your\
+            \ entire expanded outline within <expanded_outline> tags.\n\nRemember\
+            \ to integrate the references seamlessly into your writing, using them\
+            \ to support and enhance the original outline rather than simply inserting\
+            \ quotes. Paraphrase when appropriate, and use direct quotes sparingly\
+            \ for particularly impactful or precise language."
+        selected: false
+        title: 写作
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1728366855586'
+      position:
+        x: 1246
+        y: 297
+      positionAbsolute:
+        x: 1246
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: openai
+        prompt_template:
+        - id: 0b3e2c9b-846f-4448-ba13-2305835501f0
+          role: system
+          text: "You are an experienced academic review expert specializing in literature\
+            \ reviews. Your task is to conduct a comprehensive, rigorous multi-dimensional\
+            \ assessment of the submitted literature review to ensure it meets the\
+            \ highest academic standards. Please follow these steps:\n\n1. Carefully\
+            \ read the user's content\n\n2. Conduct a thorough review of the content,\
+            \ focusing on the following aspects:\n\n   a) Accuracy and Comprehensiveness:\n\
+            \      - Verify the accuracy of all information and data.\n      - Ensure\
+            \ the article covers all important research and perspectives in the field.\n\
+            \n   b) Logical Argumentation and Persuasiveness:\n      - Analyze the\
+            \ article's argumentative structure for clarity and persuasiveness.\n\
+            \      - Check if all points are adequately supported and if there are\
+            \ any omissions or inconsistencies.\n\n   c) Literature Citations:\n \
+            \     - Confirm that citations are appropriate and sufficient.\n     \
+            \ - Ensure cited literature is up-to-date and closely related to the article's\
+            \ topic.\n\n   d) Article Structure and Coherence:\n      - Examine the\
+            \ overall structure for logic and coherence between paragraphs.\n    \
+            \  - Ensure each section's content is closely related to the main topic.\n\
+            \n   e) Language Expression:\n      - Ensure clear, concise language that\
+            \ adheres to academic norms.\n      - Check for grammatical errors or\
+            \ inappropriate word usage.\n\n   f) Innovation and Research Direction:\n\
+            \      - Determine if the article provides new insights or perspectives.\n\
+            \      - Confirm if the article points out valuable research directions.\n\
+            \n3. Provide your assessment and suggestions in the following format:\n\
+            \n<review>\n<strengths>\n[List the main strengths of the literature review]\n\
+            </strengths>\n\n<weaknesses>\n[List the main weaknesses or areas for improvement]\n\
+            </weaknesses>\n\n<suggestions>\n[Provide detailed, constructive suggestions\
+            \ for improvement, helping the author enhance the quality of the article]\n\
+            </suggestions>\n</review>\n\nRemember to provide a comprehensive evaluation,\
+            \ addressing all the aspects mentioned above. Your review should be thorough,\
+            \ critical, and constructive, aimed at helping the author improve the\
+            \ quality of their literature review to meet high academic standards."
+        - id: 289ab6ba-348a-492a-90af-5eb4ed4f1ff9
+          role: user
+          text: content:{{#1728366855586.text#}}
+        selected: false
+        title: reviewer
+        type: llm
+        variables: []
+        vision:
+          configs:
+            detail: high
+          enabled: false
+      height: 98
+      id: '1728367009812'
+      position:
+        x: 1550
+        y: 297
+      positionAbsolute:
+        x: 1550
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: claude-3-5-sonnet-20240620
+          provider: openai_api_compatible
+        prompt_template:
+        - id: 5fb145fa-14fc-461d-b84a-6af4d674ef8c
+          role: system
+          text: "You are tasked with finalizing a literature review article based\
+            \ on a reviewed draft and specific journal requirements. Follow these\
+            \ instructions carefully to produce a high-quality, publication-ready\
+            \ manuscript.\n\nAfter recived the user's messages, please follow these\
+            \ steps to finalize the literature review article:\n\n1. Formatting and\
+            \ Structure:\n   - Use Markdown format for the entire document.\n   -\
+            \ Apply appropriate heading levels (# for main title, ## for sections,\
+            \ ### for subsections, etc.) to organize the article structure.\n   -\
+            \ Ensure the document includes all necessary sections: Title, Abstract,\
+            \ Keywords, Introduction, Main Body (with relevant subsections), Conclusion,\
+            \ and References.\n   - Format the document according to the journal requirements,\
+            \ paying attention to font, spacing, and margin specifications.\n\n2.\
+            \ Content Refinement:\n   - Critically analyze the reviewed draft and\
+            \ identify areas that need improvement or expansion.\n   - Ensure the\
+            \ article presents a comprehensive and in-depth discussion of the topic.\n\
+            \   - Maintain an objective and neutral academic tone throughout the article.\n\
+            \   - Highlight your own insights and contributions to the field.\n  \
+            \ - Strengthen the logical flow and coherence between different sections\
+            \ of the article.\n\n3. Citations and References:\n   - Use the format\
+            \ ([1](http://xxx.xxx.xxx/xxx/xxx?=xx)) for in-text citations.\n   - Ensure\
+            \ all citations are accurately placed and correspond to the statements\
+            \ they support.\n   - Maintain consistency and continuity in the citation\
+            \ order.\n   - Compile a reference list at the end of the document using\
+            \ APA format, unless otherwise specified in the journal requirements.\n\
+            \n4. Final Checks and Polishing:\n   - Proofread the entire document for\
+            \ spelling, grammar, and punctuation errors.\n   - Verify the accuracy\
+            \ and completeness of all citations and references.\n   - Ensure the overall\
+            \ style is consistent and adheres to academic writing standards.\n   -\
+            \ Check that the article meets all the specific requirements outlined\
+            \ by the target journal.\n\n5. Cover Letter:\n   - Draft a concise and\
+            \ persuasive cover letter highlighting the article's innovation and contribution\
+            \ to the field.\n   - Briefly summarize the main findings and significance\
+            \ of the research.\n   - Explain why the article is a good fit for the\
+            \ target journal.\n\n6. Output Format:\n   - Present the final article\
+            \ in a single, cohesive Markdown document.\n   - Do not include any XML\
+            \ tags in the output.\n   - Ensure all text is in the specified target\
+            \ language.\n\nAfter completing these steps, provide the finalized literature\
+            \ review article, followed by the cover letter, in the specified target\
+            \ language. Both should be formatted in Markdown and free of any XML tags."
+        - role: user
+          text: '
+
+            First, carefully read and analyze the following reviewed literature review:
+
+
+            <reviewed_literature_review>
+
+            {{#1728367009812.text#}}
+
+            </reviewed_literature_review>
+
+
+            Next, familiarize yourself with the target journal''s specific requirements
+            for the article
+
+            <need_to_revised_article>
+
+            {{#1728366855586.text#}}
+
+            </need_to_revised_article>
+
+
+            The final article should be written in the following language:
+
+
+            <target_language>
+
+            {{#1727630066532.Language#}}
+
+            </target_language>
+
+
+            '
+        selected: false
+        title: Final
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1728367092750'
+      position:
+        x: 1854
+        y: 297
+      positionAbsolute:
+        x: 1854
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1728367576764'
+          - text
+          variable: Summary
+        - value_selector:
+          - '1728366213317'
+          - text
+          variable: Outline
+        - value_selector:
+          - '1728366855586'
+          - text
+          variable: Draft
+        - value_selector:
+          - '1728367009812'
+          - text
+          variable: reviewer
+        - value_selector:
+          - '1728367092750'
+          - text
+          variable: final
+        selected: false
+        title: 结束 2
+        type: end
+      height: 194
+      id: '1728367274795'
+      position:
+        x: 2158
+        y: 297
+      positionAbsolute:
+        x: 2158
+        y: 297
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: openai
+        prompt_template:
+        - id: 7e974a77-bc28-43f1-bc6b-4c4a98d2f87c
+          role: system
+          text: "You are an AI assistant tasked with analyzing and interpreting a\
+            \ collection of academic articles provided in JSON format. Your goal is\
+            \ to provide a comprehensive analysis of each article, ensuring that no\
+            \ article is omitted from your review. Follow these instructions carefully:\n\
+            \n1. First, here's the JSON content containing the articles to be analyzed:\n\
+            \n<json_content>\n{{#1727630075809.body#}}\n</json_content>\n\n2. You\
+            \ must conduct your analysis and provide your output in the following\
+            \ language: {{#1727630066532.Language#}}\n\n3. For each article in the\
+            \ JSON content, follow these steps to analyze the article:\n\n   a) Identify\
+            \ and summarize the main research question(s) and objective(s) of the\
+            \ article.\n   b) Describe the theoretical framework or model used in\
+            \ the study.\n   c) Summarize the research methodology and design employed.\n\
+            \   d) Extract and summarize the key findings and conclusions.\n   e)\
+            \ Highlight any innovative aspects of the study and point out potential\
+            \ limitations.\n   f) Analyze how this article relates to other research\
+            \ in the field (e.g., does it support, contradict, or complement other\
+            \ studies?).\n   g) Identify any controversial points or unresolved issues\
+            \ mentioned in the article. Summarize these controversies and explain\
+            \ their significance in the broader research field.\n   h) Identify any\
+            \ trends or emerging directions in the research field mentioned in the\
+            \ article. Analyze the potential impact of these trends on the field of\
+            \ study.\n\n4. Present your analysis in the following structured format\
+            \ for each article:\n\n<article_analysis>\n**文章[N]：[Article Title]**\n\
+            **主要观点和结论**：[Summary of main points and conclusions]\n**局限性**：[Discussion\
+            \ of limitations]\n**争议点**：[Identified controversies or disputed points]\n\
+            **研究内容缺陷**：[Areas not covered by the research]\n**参考文献格式**：[APA format\
+            \ for this paper]\n</article_analysis>\n\nReplace [N] with the appropriate\
+            \ number for each article. Use \"---\" to separate each article analysis.\n\
+            \n5. Ensure that you analyze and provide output for ALL articles present\
+            \ in the JSON content. Do not omit any article from your analysis.\n\n\
+            Begin your analysis now, processing each article in the order it appears\
+            \ in the JSON content. Provide a thorough and insightful analysis for\
+            \ each article, adhering to the specified format and language requirement."
+        - id: d8340bd7-b205-456c-b460-714d93975008
+          role: assistant
+          text: 'APA format rule:
+
+            Reference List: Basic Rules
+
+            This resourse, revised according to the 7th edition APA Publication Manual,
+            offers basic guidelines for formatting the reference list at the end of
+            a standard APA research paper. Most sources follow fairly straightforward
+            rules. However, because sources obtained from academic journals carry
+            special weight in research writing, these sources are subject to special
+            rules. Thus, this page presents basic guidelines for citing academic journals
+            separate from its "ordinary" basic guidelines. This distinction is made
+            clear below.
+
+            Note: Because the information on this page pertains to virtually all citations,
+            we''ve highlighted one important difference between APA 6 and APA 7 with
+            an underlined note written in red. For more information, please consult
+            the Publication Manual of the American Psychological Association, (7th ed.).
+
+            Formatting a Reference List
+
+            Your reference list should appear at the end of your paper. It provides
+            the information necessary for a reader to locate and retrieve any source
+            you cite in the body of the paper. Each source you cite in the paper must
+            appear in your reference list; likewise, each entry in the reference list
+            must be cited in your text.
+
+            Your references should begin on a new page separate from the text of the
+            essay; label this page "References" in bold, centered at the top of the
+            page (do NOT underline or use quotation marks for the title). All text
+            should be double-spaced just like the rest of your essay.
+
+            Basic Rules for Most Sources
+
+            All lines after the first line of each entry in your reference list should
+            be indented one-half inch from the left margin. This is called hanging
+            indentation.
+
+            All authors'' names should be inverted (i.e., last names should be provided
+            first).
+
+            Authors'' first and middle names should be written as initials.
+
+            For example, the reference entry for a source written by Jane Marie Smith
+            would begin with "Smith, J. M."
+
+            If a middle name isn''t available, just initialize the author''s first
+            name: "Smith, J."
+
+            Give the last name and first/middle initials for all authors of a particular
+            work up to and including 20 authors (this is a new rule, as APA 6 only
+            required the first six authors). Separate each author’s initials from
+            the next author in the list with a comma. Use an ampersand (&) before
+            the last author’s name. If there are 21 or more authors, use an ellipsis
+            (but no ampersand) after the 19th author, and then add the final author’s
+            name.
+
+            Reference list entries should be alphabetized by the last name of the
+            first author of each work.
+
+            For multiple articles by the same author, or authors listed in the same
+            order, list the entries in chronological order, from earliest to most
+            recent.
+
+            When referring to the titles of books, chapters, articles, reports, webpages, or
+            other sources, capitalize only the first letter of the first word of the
+            title and subtitle, the first word after a colon or a dash in the title,
+            and proper nouns.
+
+            Note again that the titles of academic journals are subject to special
+            rules. See section below.
+
+            Italicize titles of longer works (e.g., books, edited collections, names
+            of newspapers, and so on).
+
+            Do not italicize, underline, or put quotes around the titles of shorter
+            works such as chapters in books or essays in edited collections.
+
+            Basic Rules for Articles in Academic Journals
+
+            Present journal titles in full.
+
+            Italicize journal titles.
+
+            Maintain any nonstandard punctuation and capitalization that is used by
+            the journal in its title.
+
+            For example, you should use PhiloSOPHIA instead of Philosophia, or Past
+            & Present instead of Past and Present.
+
+            Capitalize all major words in the titles of journals. Note that this differs
+            from the rule for titling other common sources (like books, reports, webpages,
+            and so on) described above.
+
+            This distinction is based on the type of source being cited. Academic
+            journal titles have all major words capitalized, while other sources''
+            titles do not.
+
+            Capitalize the first word of the titles and subtitles of journal articles,
+            as well as the first word after a colon or a dash in the title, and any
+            proper nouns.
+
+            Do not italicize or underline the article title.
+
+            Do not enclose the article title in quotes. 
+
+            So, for example, if you need to cite an article titled "Deep Blue: The
+            Mysteries of the Marianas Trench" that was published in the journal Oceanographic
+            Study: A Peer-Reviewed Publication, you would write the article title
+            as follows:
+
+            Deep blue: The mysteries of the Marianas Trench.
+
+            ...but you would write the journal title as follows:
+
+            Oceanographic Study: A Peer-Reviewed Publication
+
+            Please note: While the APA manual provides examples of how to cite common
+            types of sources, it does not cover all conceivable sources. If you must
+            cite a source that APA does not address, the APA suggests finding an example
+            that is similar to your source and using that format. For more information,
+            see page 282 of the Publication Manual of the American Psychological Association,
+            7th ed.
+
+            Reference List: Author/Authors
+
+            The following rules for handling works by a single author or multiple
+            authors apply to all APA-style references in your reference list, regardless
+            of the type of work (book, article, electronic resource, etc.).
+
+            Note: Because the information on this page pertains to virtually all citations,
+            we''ve highlighted a few important differences between APA 6 and APA 7 with
+            underlined notes written in red.
+
+            Single Author
+
+            Last name first, followed by author initials.
+
+            Ahmed, S. (2012). On being included: Racism and diversity in institutional
+            life. Duke University Press.
+
+            Two Authors
+
+            List by their last names and initials. Separate author names with a comma.
+            Use the ampersand instead of "and."
+
+            Soto, C. J., & John, O. P. (2017). The next big five inventory (BFI-2):
+            Developing and assessing a hierarchical model with 15 facets to enhance
+            bandwidth, fidelity, and predictive power. Journal of Personality and
+            Social Psychology, 113(1), 117-143. http://dx.doi.org/10.1037/pspp0000096
+
+            Three to Twenty Authors
+
+            List by last names and initials; commas separate author names, while the
+            last author name is preceded again by ampersand. This is a departure from
+            APA 6, which only required listing the first six authors before an ellipsis
+            and the final author''s name.
+
+            Nguyen, T., Carnevale, J. J., Scholer, A. A., Miele, D. B., & Fujita,
+            K. (2019). Metamotivational knowledge of the role of high-level and low-level
+            construal in goal-relevant task performance. Journal of Personality and
+            Social Psychology, 117(5), 879-899. http://dx.doi.org/10.1037/pspa0000166
+
+            More Than Twenty Authors
+
+            List by last names and initials; commas separate author names. After the
+            first 19 authors’ names, use an ellipsis in place of the remaining author
+            names. Then, end with the final author''s name (do not place an ampersand
+            before it). There should be no more than twenty names in the citation
+            in total.
+
+            Pegion, K., Kirtman, B. P., Becker, E., Collins, D. C., LaJoie, E., Burgman,
+            R., Bell, R., DelSole, R., Min, D., Zhu, Y., Li, W., Sinsky, E., Guan,
+            H., Gottschalck, J., Metzger, E. J., Barton, N. P., Achuthavarier, D.,
+            Marshak, J., Koster, R., . . .  Kim, H. (2019). The subseasonal experiment
+            (SubX): A multimodel subseasonal prediction experiment. Bulletin of the
+            American Meteorological Society, 100(10), 2043-2061. https://doi.org/10.1175/BAMS-D-18-0270.1
+
+            Group Author
+
+            Group authors can include corporations, government agencies, organizations,
+            etc; and a group may publish in coordination with individuals. Here, you
+            simply treat the publishing organization the same way you''d treat the
+            author''s name and format the rest of the citation as normal. Be sure
+            to give the full name of the group author in your reference list, although
+            abbreviations may be used in your text.
+
+            Entries in reference works ( e.g. dictionaries, thesauruses, and encyclopedias)
+            without credited authors are also considered works with group authors.
+
+            Merriam-Webster. (2008). Braggadocio. In Merriam-Webster’s Advanced Learner’s
+            English Dictionary. Merriam-Webster.
+
+            When a work has multiple layers of group authorship (e.g. The Office of
+            the Historian, which is a part of the Department of State, publishes something),
+            list the most specific agency as the author and the parent agency as the
+            publisher.
+
+            Bureau of International Organization Affairs. (2018). U.S. contributions
+            to international organizations, 2017 [Annual report]. U.S. Department
+            of State. https://www.state.gov/u-s-contributions-to-international-organizations/
+
+            Unknown Author
+
+            When the work does not have an author move the title of the work to the
+            beginning of the references and follow with the date of publication. Only
+            use “Anonymous ” if the author is the work is signed “Anonymous.” This
+            is a new addition to APA 7.
+
+            Merriam-Webster''s collegiate dictionary (11th ed.). (2003). Merriam-Webster.
+
+            NOTE: When your essay includes parenthetical citations of sources with
+            no author named, use a shortened version of the source''s title instead
+            of an author''s name. Use quotation marks and italics as appropriate.
+            For example, parenthetical citations of the source above would appear
+            as follows: (Merriam-Webster''s, 2003).
+
+            Two or More Works by the Same Author
+
+            Use the author''s name for all entries and list the entries by the year
+            (earliest comes first). List references with no dates before references
+            with dates.
+
+            Urcuioli, P. J. (n.d.).
+
+            Urcuioli, P. J. (2011). 
+
+            Urcuioli, P. J.  (2015).
+
+            When an author appears both as a sole author and, in another citation,
+            as the first author of a group, list the one-author entries first.
+
+            Agnew, C. R. (Ed.). (2014). Social influences on romantic relationships:
+            Beyond the dyad. Cambridge University Press.
+
+            Agnew, C. R., & South, S. C. (Eds.). (2014). Interpersonal relationships
+            and health: Social and clinical psychological mechanisms. Oxford University
+            Press.
+
+            References that have the same first author and different second and/or
+            third authors are arranged alphabetically by the last name of the second
+            author, or the last name of the third if the first and second authors
+            are the same.
+
+            Arriaga, X. B., Capezza, N. M., Reed, J. T., Wesselman, E. D., & Williams,
+            K. D. (2014). With partners like you, who needs strangers?: Ostracism
+            involving a romantic partner. Personal Relationships, 21(4), 557-569.
+
+            Arriaga, X. B., Kumashiro, M., Finkel, E. J., VanderDrift, L. E., & Luchies,
+            L. B. (2014). Filling the void: Bolstering attachment security in committed
+            relationships. Social Psychological and Personality Science, 5(4), 398-405.
+
+            Two or More Works by the Same Author in the Same Year
+
+            If you are using more than one reference by the same author—or the same
+            group of authors listed in the same order—published in the same year,
+            first check to see if they have more specific dates (this recommendation
+            is new to APA 7). Works with only a year should be listed before those
+            with a more specific date. List specific dates chronologically.  If two
+            works have the same publication date, organize them in the reference list
+            alphabetically by the title of the article or chapter. If references with
+            the same date are identified as parts of a series (e.g. Part 1 and Part
+            2), list them in order of their place in the series. Then assign letter
+            suffixes to the year. Refer to these sources in your essay as they appear
+            in your reference list, e.g.: "Berndt (2004a) makes similar claims..."
+
+            Berndt, T. J. (2004a).  Children’s friendships: Shifts over a half-century
+            in perspectives on their development and their effects.  Merrill Palmer
+            Quarterly, 50(3), 206-223.
+
+            Berndt, T. J. (2004b).  Friendship and three A’s (aggression, adjustment,
+            and attachment).  Journal of Experimental Child Psychology, 88(1), 1-4.
+
+            Introductions, Prefaces, Forewords, and Afterwords
+
+            Cite the publishing information about a book as usual, but cite Introduction,
+            Preface, Foreword, or Afterword (whatever title is applicable) as the
+            chapter of the book.
+
+            Lang, J. M. (2018). Introduction. In Dujardin, G., Lang, J. M., & Staunton,
+            J. A. (Eds.), Teaching the literature survey course (pp. 1-8). West Virginia
+            University Press.'
+        selected: true
+        title: 学习
+        type: llm
+        variables: []
+        vision:
+          configs:
+            detail: high
+          enabled: false
+      height: 98
+      id: '1728367576764'
+      position:
+        x: 942
+        y: 435
+      positionAbsolute:
+        x: 942
+        y: 435
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 26.744309247731394
+      y: 272.8878594086882
+      zoom: 0.7009710789979345
