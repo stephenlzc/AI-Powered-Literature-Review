@@ -1,4 +1,4 @@
-# EXA Literature Review Workflow
+# AI-Powered-Literature-Review(DIFY workflow)
 
 [English](README.md) | [中文](README_CN.md)
 
