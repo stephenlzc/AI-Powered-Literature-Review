@@ -1,4 +1,5 @@
-# AI-LitReview-Workflow
+# AI-Powered-Literature-Review(DIFY工作流)
+
 
 [English](README.md) | [中文](README_CN.md)
 
