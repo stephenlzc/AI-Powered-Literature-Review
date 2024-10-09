@@ -460,7 +460,7 @@ workflow:
             \ quotes. Paraphrase when appropriate, and use direct quotes sparingly\
             \ for particularly impactful or precise language."
         selected: false
-        title: 写作
+        title: Writing
         type: llm
         variables: []
         vision:
@@ -1028,7 +1028,7 @@ workflow:
             J. A. (Eds.), Teaching the literature survey course (pp. 1-8). West Virginia
             University Press.'
         selected: false
-        title: 学习
+        title: Summary
         type: llm
         variables: []
         vision:
