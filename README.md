@@ -1,5 +1,9 @@
 # AI-Powered-Literature-Review(DIFY工作流)
 
+
+# <font color="red">**本项目旨在探索AI大型语言模型(LLM)在工作流程中的应用及提示词的使用方法。生成的文章内容仅用于快速了解某个领域、方法或技术,不得用于学术发表或任何形式的学术不端行为。我们坚持学术诚信,拒绝一切违背学术道德的做法。**</font>
+
+
 <p align="center">
   <a href="README.md">中文</a> |
   <a href="README_EN.md">

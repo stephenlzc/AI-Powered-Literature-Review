@@ -1,5 +1,8 @@
 # AI-Powered-Literature-Review(DIFY workflow)
 
+# <font color="red">**This project aims to explore the application of AI large language models (LLM) in workflows and the use of prompts. The generated content is intended solely for quickly understanding a certain field, method, or technology and must NOT be used for academic publication or any form of academic misconduct. We uphold academic integrity and reject any practices that violate academic ethics.**</font>
+
+
 <p align="center">
   <a href="README.md">
     <img src="https://img.shields.io/badge/-中文-red?style=for-the-badge&logo=markdown"/>
