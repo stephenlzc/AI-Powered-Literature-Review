@@ -216,7 +216,7 @@ workflow:
         type: http-request
         url: https://api.exa.ai/search
         variables: []
-      height: 90
+      height: 94
       id: '1727630075809'
       position:
         x: 638
@@ -328,18 +328,19 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: claude-3-5-sonnet-20240620
-          provider: openai_api_compatible
+          name: claude-3-sonnet-20240229
+          provider: anthropic
         prompt_template:
         - id: da832e2f-c705-4961-8160-a4d70edccb10
           role: system
-          text: "You are a renowned professor specializing in research methodology\
-            \ and academic writing. Your task is to create a comprehensive, well-structured,\
-            \ and logically sound literature review outline based on collected literature.\
-            \ This outline should cover all important aspects of the research topic,\
-            \ including historical background, current research status, main theoretical\
-            \ frameworks, key controversies, and future research directions.\n\nHere\
-            \ is the research topic:\n<research_topic>\n{{#1727772385878.text#}}\n\
+          text: You are a renowned professor specializing in research methodology
+            and academic writing. Your task is to create a comprehensive, well-structured,
+            and logically sound literature review outline based on collected literature.
+            This outline should cover all important aspects of the research topic,
+            including historical background, current research status, main theoretical
+            frameworks, key controversies, and future research directions.
+        - role: user
+          text: "Here is the research topic:\n<research_topic>\n{{#1727772385878.text#}}\n\
             </research_topic>\n\nHere is the collected literature:\n<collected_literature>\n\
             {{#1727630075809.body#}}\n</collected_literature>\n\nYou are to create\
             \ the outline in the following language:\n<language>\n{{#1727630066532.Language#}}\n\
@@ -364,6 +365,8 @@ workflow:
         type: llm
         variables: []
         vision:
+          configs:
+            detail: high
           enabled: false
       height: 98
       id: '1728366213317'
@@ -388,7 +391,7 @@ workflow:
             temperature: 0.7
           mode: chat
           name: claude-3-5-sonnet-20240620
-          provider: openai_api_compatible
+          provider: anthropic
         prompt_template:
         - id: 565c7f22-9357-4b16-a34e-fef06db0a631
           role: system
@@ -461,7 +464,9 @@ workflow:
         type: llm
         variables: []
         vision:
-          enabled: false
+          configs:
+            detail: high
+          enabled: true
       height: 98
       id: '1728366855586'
       position:
@@ -484,7 +489,7 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: gpt-4o
+          name: gpt-4o-mini
           provider: openai
         prompt_template:
         - id: 0b3e2c9b-846f-4448-ba13-2305835501f0
@@ -530,7 +535,7 @@ workflow:
         vision:
           configs:
             detail: high
-          enabled: false
+          enabled: true
       height: 98
       id: '1728367009812'
       position:
@@ -554,7 +559,7 @@ workflow:
             temperature: 0.7
           mode: chat
           name: claude-3-5-sonnet-20240620
-          provider: openai_api_compatible
+          provider: anthropic
         prompt_template:
         - id: 5fb145fa-14fc-461d-b84a-6af4d674ef8c
           role: system
@@ -597,7 +602,8 @@ workflow:
             \ language.\n\nAfter completing these steps, provide the finalized literature\
             \ review article, followed by the cover letter, in the specified target\
             \ language. Both should be formatted in Markdown and free of any XML tags."
-        - role: user
+        - id: 48226354-0013-478d-b18e-3ef4d5807034
+          role: user
           text: '
 
             First, carefully read and analyze the following reviewed literature review:
@@ -636,7 +642,9 @@ workflow:
         type: llm
         variables: []
         vision:
-          enabled: false
+          configs:
+            detail: high
+          enabled: true
       height: 98
       id: '1728367092750'
       position:
@@ -673,7 +681,7 @@ workflow:
           - '1728367092750'
           - text
           variable: final
-        selected: false
+        selected: true
         title: 结束 2
         type: end
       height: 194
@@ -684,7 +692,7 @@ workflow:
       positionAbsolute:
         x: 2158
         y: 297
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1019,7 +1027,7 @@ workflow:
             Lang, J. M. (2018). Introduction. In Dujardin, G., Lang, J. M., & Staunton,
             J. A. (Eds.), Teaching the literature survey course (pp. 1-8). West Virginia
             University Press.'
-        selected: true
+        selected: false
         title: 学习
         type: llm
         variables: []
@@ -1035,12 +1043,12 @@ workflow:
       positionAbsolute:
         x: 942
         y: 435
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 244
     viewport:
-      x: 26.744309247731394
-      y: 272.8878594086882
+      x: -626.2140601152907
+      y: 342.81739487481383
       zoom: 0.7009710789979345
