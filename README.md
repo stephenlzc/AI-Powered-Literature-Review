@@ -5,10 +5,8 @@
 
 
 <p align="center">
-  <a href="README.md">中文</a> |
-  <a href="README_EN.md">
-    <img src="https://img.shields.io/badge/-English-blue?style=for-the-badge&logo=markdown"/>
-  </a>
+  <a href="./README.md"><img alt="简体中文版" src="https://img.shields.io/badge/简体中文-d9d9d9"></a>
+  <a href="./README_EN.md"><img alt="English" src="https://img.shields.io/badge/English-d9d9d9"></a>
 </p>
 
 ## 概述
